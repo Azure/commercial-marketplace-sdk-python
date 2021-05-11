@@ -45,7 +45,7 @@ class SubscriptionOperationsOperations:
         request_id_parameter: Optional[str] = None,
         correlation_id: Optional[str] = None,
         **kwargs
-    ) -> Optional["models.OperationList"]:
+    ) -> "models.OperationList":
         """List outstanding operations.
 
         Lists the outstanding operations for the current publisher.
@@ -62,10 +62,10 @@ class SubscriptionOperationsOperations:
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OperationList, or the result of cls(response)
-        :rtype: ~microsoft.marketplace.saas.models.OperationList or None
+        :rtype: ~microsoft.marketplace.saas.models.OperationList
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[Optional["models.OperationList"]]
+        cls = kwargs.pop('cls', None)  # type: ClsType["models.OperationList"]
         error_map = {
             401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError
         }
@@ -96,13 +96,11 @@ class SubscriptionOperationsOperations:
         pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 400, 403, 404, 500]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize('OperationList', pipeline_response)
+        deserialized = self._deserialize('OperationList', pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -117,7 +115,7 @@ class SubscriptionOperationsOperations:
         request_id_parameter: Optional[str] = None,
         correlation_id: Optional[str] = None,
         **kwargs
-    ) -> Optional["models.Operation"]:
+    ) -> "models.Operation":
         """Get operation status.
 
         Enables the publisher to track the status of the specified triggered async operation (such as
@@ -137,10 +135,10 @@ class SubscriptionOperationsOperations:
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Operation, or the result of cls(response)
-        :rtype: ~microsoft.marketplace.saas.models.Operation or None
+        :rtype: ~microsoft.marketplace.saas.models.Operation
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[Optional["models.Operation"]]
+        cls = kwargs.pop('cls', None)  # type: ClsType["models.Operation"]
         error_map = {
             401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError
         }
@@ -172,13 +170,11 @@ class SubscriptionOperationsOperations:
         pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 400, 403, 404, 500]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize('Operation', pipeline_response)
+        deserialized = self._deserialize('Operation', pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -253,7 +249,7 @@ class SubscriptionOperationsOperations:
         pipeline_response = await self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 400, 403, 404, 409, 500]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 

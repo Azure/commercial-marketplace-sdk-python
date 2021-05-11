@@ -7,6 +7,9 @@
 # --------------------------------------------------------------------------
 
 try:
+    from ._models_py3 import BatchUsageEvent
+    from ._models_py3 import BatchUsageEventOkResponse
+    from ._models_py3 import UsageBatchEventOkMessage
     from ._models_py3 import UsageEvent
     from ._models_py3 import UsageEventBadRequestResponse
     from ._models_py3 import UsageEventBadRequestResponseDetail
@@ -14,6 +17,9 @@ try:
     from ._models_py3 import UsageEventConflictResponseAdditionalInfo
     from ._models_py3 import UsageEventOkResponse
 except (SyntaxError, ImportError):
+    from ._models import BatchUsageEvent  # type: ignore
+    from ._models import BatchUsageEventOkResponse  # type: ignore
+    from ._models import UsageBatchEventOkMessage  # type: ignore
     from ._models import UsageEvent  # type: ignore
     from ._models import UsageEventBadRequestResponse  # type: ignore
     from ._models import UsageEventBadRequestResponseDetail  # type: ignore
@@ -22,19 +28,18 @@ except (SyntaxError, ImportError):
     from ._models import UsageEventOkResponse  # type: ignore
 
 from ._metering_api_enums import (
-    ApiVersion,
-    UsageEventConflictResponseAdditionalInfoStatus,
     UsageEventStatusEnum,
 )
 
 __all__ = [
+    'BatchUsageEvent',
+    'BatchUsageEventOkResponse',
+    'UsageBatchEventOkMessage',
     'UsageEvent',
     'UsageEventBadRequestResponse',
     'UsageEventBadRequestResponseDetail',
     'UsageEventConflictResponse',
     'UsageEventConflictResponseAdditionalInfo',
     'UsageEventOkResponse',
-    'ApiVersion',
-    'UsageEventConflictResponseAdditionalInfoStatus',
     'UsageEventStatusEnum',
 ]

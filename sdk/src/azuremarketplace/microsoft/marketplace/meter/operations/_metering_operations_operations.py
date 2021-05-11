@@ -16,7 +16,7 @@ from .. import models
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
-    from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar
+    from typing import Any, Callable, Dict, Generic, Optional, TypeVar
 
     T = TypeVar('T')
     ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -50,7 +50,7 @@ class MeteringOperationsOperations(object):
         correlation_id=None,  # type: Optional[str]
         **kwargs  # type: Any
     ):
-        # type: (...) -> Optional["models.UsageEventOkResponse"]
+        # type: (...) -> "models.UsageEventOkResponse"
         """Posts a single usage event to the marketplace metering service API.
 
         Posts a single usage event to the marketplace metering service API.
@@ -67,12 +67,15 @@ class MeteringOperationsOperations(object):
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: UsageEventOkResponse, or the result of cls(response)
-        :rtype: ~microsoft.marketplace.meter.models.UsageEventOkResponse or None
+        :rtype: ~microsoft.marketplace.meter.models.UsageEventOkResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[Optional["models.UsageEventOkResponse"]]
+        cls = kwargs.pop('cls', None)  # type: ClsType["models.UsageEventOkResponse"]
         error_map = {
-            401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            400: lambda response: HttpResponseError(response=response, model=self._deserialize(models.UsageEventBadRequestResponse, response)),
+            409: lambda response: ResourceExistsError(response=response, model=self._deserialize(models.UsageEventConflictResponse, response)),
         }
         error_map.update(kwargs.pop('error_map', {}))
         api_version = "2018-08-31"
@@ -102,13 +105,11 @@ class MeteringOperationsOperations(object):
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 400, 403, 409]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize('UsageEventOkResponse', pipeline_response)
+        deserialized = self._deserialize('UsageEventOkResponse', pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -118,12 +119,12 @@ class MeteringOperationsOperations(object):
 
     def post_batch_usage_event(
         self,
-        body,  # type: List["models.UsageEvent"]
+        body,  # type: "models.BatchUsageEvent"
         request_id_parameter=None,  # type: Optional[str]
         correlation_id=None,  # type: Optional[str]
         **kwargs  # type: Any
     ):
-        # type: (...) -> Optional[List["models.UsageEventOkResponse"]]
+        # type: (...) -> "models.BatchUsageEventOkResponse"
         """Posts a set of usage events to the marketplace metering service API.
 
         The batch usage event API allows you to emit usage events for more than one purchased entity at
@@ -131,7 +132,7 @@ class MeteringOperationsOperations(object):
         publisher when publishing the offer.
 
         :param body:
-        :type body: list[~microsoft.marketplace.meter.models.UsageEvent]
+        :type body: ~microsoft.marketplace.meter.models.BatchUsageEvent
         :param request_id_parameter: A unique string value for tracking the request from the client,
          preferably a GUID. If this value isn't provided, one will be generated and provided in the
          response headers.
@@ -141,11 +142,11 @@ class MeteringOperationsOperations(object):
          provided, one will be generated and provided in the response headers.
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: list of UsageEventOkResponse, or the result of cls(response)
-        :rtype: list[~microsoft.marketplace.meter.models.UsageEventOkResponse] or None
+        :return: BatchUsageEventOkResponse, or the result of cls(response)
+        :rtype: ~microsoft.marketplace.meter.models.BatchUsageEventOkResponse
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[Optional[List["models.UsageEventOkResponse"]]]
+        cls = kwargs.pop('cls', None)  # type: ClsType["models.BatchUsageEventOkResponse"]
         error_map = {
             401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError
         }
@@ -171,19 +172,17 @@ class MeteringOperationsOperations(object):
         header_parameters['Accept'] = self._serialize.header("accept", accept, 'str')
 
         body_content_kwargs = {}  # type: Dict[str, Any]
-        body_content = self._serialize.body(body, '[UsageEvent]')
+        body_content = self._serialize.body(body, 'BatchUsageEvent')
         body_content_kwargs['content'] = body_content
         request = self._client.post(url, query_parameters, header_parameters, **body_content_kwargs)
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 400, 403]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize('[UsageEventOkResponse]', pipeline_response)
+        deserialized = self._deserialize('BatchUsageEventOkResponse', pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})

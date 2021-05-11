@@ -26,23 +26,6 @@ class _CaseInsensitiveEnumMeta(EnumMeta):
             raise AttributeError(name)
 
 
-class ApiVersion(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
-    """The request must send the following parameters as a URL Encoded form; grant_type -
-    client_credentials; resource - 62d94f6c-d599-489b-a797-3e10e42fbe22; client_id - AAD Registered
-    App Client ID; client_secret - AAD Registered App Client Secret
-    """
-
-    TWO_THOUSAND_EIGHTEEN08_31 = "2018-08-31"
-    TWO_THOUSAND_EIGHTEEN09_15 = "2018-09-15"
-
-class UsageEventConflictResponseAdditionalInfoStatus(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
-    """Accepted|NotProcessed|Expired
-    """
-
-    ACCEPTED = "Accepted"
-    NOT_PROCESSED = "NotProcessed"
-    EXPIRED = "Expired"
-
 class UsageEventStatusEnum(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
     """Status of the operation.
     """
@@ -53,4 +36,6 @@ class UsageEventStatusEnum(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
     ERROR = "Error"
     RESOURCE_NOT_FOUND = "ResourceNotFound"
     RESOURCE_NOT_AUTHORIZED = "ResourceNotAuthorized"
-    INVALID_DIMENSION_BAD_ARGUMENT = "InvalidDimension|BadArgument"
+    INVALID_DIMENSION = "InvalidDimension"
+    INVALID_QUANTITY = "InvalidQuantity"
+    BAD_ARGUMENT = "BadArgument"

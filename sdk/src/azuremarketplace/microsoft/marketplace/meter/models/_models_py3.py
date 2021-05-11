@@ -9,20 +9,143 @@
 import datetime
 from typing import List, Optional, Union
 
+from azure.core.exceptions import HttpResponseError
 import msrest.serialization
 
 from ._metering_api_enums import *
 
 
+class BatchUsageEvent(msrest.serialization.Model):
+    """BatchUsageEvent.
+
+    :param request:
+    :type request: list[~microsoft.marketplace.meter.models.UsageEvent]
+    """
+
+    _validation = {
+        'request': {'max_items': 25, 'min_items': 1},
+    }
+
+    _attribute_map = {
+        'request': {'key': 'request', 'type': '[UsageEvent]'},
+    }
+
+    def __init__(
+        self,
+        *,
+        request: Optional[List["UsageEvent"]] = None,
+        **kwargs
+    ):
+        super(BatchUsageEvent, self).__init__(**kwargs)
+        self.request = request
+
+
+class BatchUsageEventOkResponse(msrest.serialization.Model):
+    """BatchUsageEventOkResponse.
+
+    :param result:
+    :type result: list[~microsoft.marketplace.meter.models.UsageBatchEventOkMessage]
+    :param count:
+    :type count: int
+    """
+
+    _attribute_map = {
+        'result': {'key': 'result', 'type': '[UsageBatchEventOkMessage]'},
+        'count': {'key': 'count', 'type': 'int'},
+    }
+
+    def __init__(
+        self,
+        *,
+        result: Optional[List["UsageBatchEventOkMessage"]] = None,
+        count: Optional[int] = None,
+        **kwargs
+    ):
+        super(BatchUsageEventOkResponse, self).__init__(**kwargs)
+        self.result = result
+        self.count = count
+
+
+class UsageBatchEventOkMessage(msrest.serialization.Model):
+    """UsageBatchEventOkMessage.
+
+    :param usage_event_id: Unique identifier associated with the usage event.
+    :type usage_event_id: str
+    :param status: Status of the operation. Possible values include: "Accepted", "Expired",
+     "Duplicate", "Error", "ResourceNotFound", "ResourceNotAuthorized", "InvalidDimension",
+     "InvalidQuantity", "BadArgument".
+    :type status: str or ~microsoft.marketplace.meter.models.UsageEventStatusEnum
+    :param message_time: Time this message was created in UTC.
+    :type message_time: ~datetime.datetime
+    :param resource_id: Identifier of the resource against which usage is emitted.
+    :type resource_id: str
+    :param resource_uri: Identifier of the managed app resource against which usage is emitted.
+    :type resource_uri: str
+    :param quantity: Number of units consumed.
+    :type quantity: float
+    :param dimension: Dimension identifier.
+    :type dimension: str
+    :param effective_start_time: Time in UTC when the usage event occurred.
+    :type effective_start_time: ~datetime.datetime
+    :param plan_id: Plan associated with the purchased offer.
+    :type plan_id: str
+    :param error:
+    :type error: ~microsoft.marketplace.meter.models.UsageEventConflictResponse
+    """
+
+    _attribute_map = {
+        'usage_event_id': {'key': 'usageEventId', 'type': 'str'},
+        'status': {'key': 'status', 'type': 'str'},
+        'message_time': {'key': 'messageTime', 'type': 'iso-8601'},
+        'resource_id': {'key': 'resourceId', 'type': 'str'},
+        'resource_uri': {'key': 'resourceUri', 'type': 'str'},
+        'quantity': {'key': 'quantity', 'type': 'float'},
+        'dimension': {'key': 'dimension', 'type': 'str'},
+        'effective_start_time': {'key': 'effectiveStartTime', 'type': 'iso-8601'},
+        'plan_id': {'key': 'planId', 'type': 'str'},
+        'error': {'key': 'error', 'type': 'UsageEventConflictResponse'},
+    }
+
+    def __init__(
+        self,
+        *,
+        usage_event_id: Optional[str] = None,
+        status: Optional[Union[str, "UsageEventStatusEnum"]] = None,
+        message_time: Optional[datetime.datetime] = None,
+        resource_id: Optional[str] = None,
+        resource_uri: Optional[str] = None,
+        quantity: Optional[float] = None,
+        dimension: Optional[str] = None,
+        effective_start_time: Optional[datetime.datetime] = None,
+        plan_id: Optional[str] = None,
+        error: Optional["UsageEventConflictResponse"] = None,
+        **kwargs
+    ):
+        super(UsageBatchEventOkMessage, self).__init__(**kwargs)
+        self.usage_event_id = usage_event_id
+        self.status = status
+        self.message_time = message_time
+        self.resource_id = resource_id
+        self.resource_uri = resource_uri
+        self.quantity = quantity
+        self.dimension = dimension
+        self.effective_start_time = effective_start_time
+        self.plan_id = plan_id
+        self.error = error
+
+
 class UsageEvent(msrest.serialization.Model):
     """UsageEvent.
 
-    :param resource_id: Subscription ID for the event. Used with SaaS applications.
+    :param resource_id: subscriptionId property value for SaaS offer subscriptions; resourceUsageId
+     property on the managed application resource for managed application offers. For managed
+     applications, only use one of resourceId or resourceUri.
     :type resource_id: str
-    :param resource_uri: Resource URI for the managed app. Used with managed applications.
+    :param resource_uri: Resource URI for the managed app. Used with managed applications. Only use
+     resourceUri or resourceId, but never both.
     :type resource_uri: str
     :param quantity: Number of units consumed.
-    :type quantity: long
+    :type quantity: float
     :param dimension: Dimension identifier.
     :type dimension: str
     :param effective_start_time: Time in UTC when the usage event occurred.
@@ -34,7 +157,7 @@ class UsageEvent(msrest.serialization.Model):
     _attribute_map = {
         'resource_id': {'key': 'resourceId', 'type': 'str'},
         'resource_uri': {'key': 'resourceUri', 'type': 'str'},
-        'quantity': {'key': 'quantity', 'type': 'long'},
+        'quantity': {'key': 'quantity', 'type': 'float'},
         'dimension': {'key': 'dimension', 'type': 'str'},
         'effective_start_time': {'key': 'effectiveStartTime', 'type': 'iso-8601'},
         'plan_id': {'key': 'planId', 'type': 'str'},
@@ -45,7 +168,7 @@ class UsageEvent(msrest.serialization.Model):
         *,
         resource_id: Optional[str] = None,
         resource_uri: Optional[str] = None,
-        quantity: Optional[int] = None,
+        quantity: Optional[float] = None,
         dimension: Optional[str] = None,
         effective_start_time: Optional[datetime.datetime] = None,
         plan_id: Optional[str] = None,
@@ -130,91 +253,54 @@ class UsageEventBadRequestResponseDetail(msrest.serialization.Model):
 class UsageEventConflictResponse(msrest.serialization.Model):
     """UsageEventConflictResponse.
 
-    :param code:
-    :type code: str
     :param additional_info:
     :type additional_info:
      ~microsoft.marketplace.meter.models.UsageEventConflictResponseAdditionalInfo
+    :param message:
+    :type message: str
+    :param code:
+    :type code: str
     """
 
     _attribute_map = {
-        'code': {'key': 'code', 'type': 'str'},
         'additional_info': {'key': 'additionalInfo', 'type': 'UsageEventConflictResponseAdditionalInfo'},
+        'message': {'key': 'message', 'type': 'str'},
+        'code': {'key': 'code', 'type': 'str'},
     }
 
     def __init__(
         self,
         *,
-        code: Optional[str] = None,
         additional_info: Optional["UsageEventConflictResponseAdditionalInfo"] = None,
+        message: Optional[str] = None,
+        code: Optional[str] = None,
         **kwargs
     ):
         super(UsageEventConflictResponse, self).__init__(**kwargs)
-        self.code = code
         self.additional_info = additional_info
+        self.message = message
+        self.code = code
 
 
 class UsageEventConflictResponseAdditionalInfo(msrest.serialization.Model):
     """UsageEventConflictResponseAdditionalInfo.
 
-    :param usage_event_id: Unique identifier associated with the usage event.
-    :type usage_event_id: str
-    :param status: Accepted|NotProcessed|Expired. Possible values include: "Accepted",
-     "NotProcessed", "Expired".
-    :type status: str or
-     ~microsoft.marketplace.meter.models.UsageEventConflictResponseAdditionalInfoStatus
-    :param message_time: Time this message was created in UTC.
-    :type message_time: ~datetime.datetime
-    :param resource_id: Identifier of the resource against which usage is emitted.
-    :type resource_id: str
-    :param resource_uri: Identifier of the managed app resource against which usage is emitted.
-    :type resource_uri: str
-    :param quantity:
-    :type quantity: long
-    :param dimension: Dimension identifier.
-    :type dimension: str
-    :param effective_start_time: Time in UTC when the usage event occurred.
-    :type effective_start_time: ~datetime.datetime
-    :param plan_id: Plan associated with the purchased offer.
-    :type plan_id: str
+    :param accepted_message:
+    :type accepted_message: ~microsoft.marketplace.meter.models.UsageEventOkResponse
     """
 
     _attribute_map = {
-        'usage_event_id': {'key': 'usageEventId', 'type': 'str'},
-        'status': {'key': 'status', 'type': 'str'},
-        'message_time': {'key': 'messageTime', 'type': 'iso-8601'},
-        'resource_id': {'key': 'resourceId', 'type': 'str'},
-        'resource_uri': {'key': 'resourceUri', 'type': 'str'},
-        'quantity': {'key': 'quantity', 'type': 'long'},
-        'dimension': {'key': 'dimension', 'type': 'str'},
-        'effective_start_time': {'key': 'effectiveStartTime', 'type': 'iso-8601'},
-        'plan_id': {'key': 'planId', 'type': 'str'},
+        'accepted_message': {'key': 'acceptedMessage', 'type': 'UsageEventOkResponse'},
     }
 
     def __init__(
         self,
         *,
-        usage_event_id: Optional[str] = None,
-        status: Optional[Union[str, "UsageEventConflictResponseAdditionalInfoStatus"]] = None,
-        message_time: Optional[datetime.datetime] = None,
-        resource_id: Optional[str] = None,
-        resource_uri: Optional[str] = None,
-        quantity: Optional[int] = None,
-        dimension: Optional[str] = None,
-        effective_start_time: Optional[datetime.datetime] = None,
-        plan_id: Optional[str] = None,
+        accepted_message: Optional["UsageEventOkResponse"] = None,
         **kwargs
     ):
         super(UsageEventConflictResponseAdditionalInfo, self).__init__(**kwargs)
-        self.usage_event_id = usage_event_id
-        self.status = status
-        self.message_time = message_time
-        self.resource_id = resource_id
-        self.resource_uri = resource_uri
-        self.quantity = quantity
-        self.dimension = dimension
-        self.effective_start_time = effective_start_time
-        self.plan_id = plan_id
+        self.accepted_message = accepted_message
 
 
 class UsageEventOkResponse(msrest.serialization.Model):
@@ -223,8 +309,8 @@ class UsageEventOkResponse(msrest.serialization.Model):
     :param usage_event_id: Unique identifier associated with the usage event.
     :type usage_event_id: str
     :param status: Status of the operation. Possible values include: "Accepted", "Expired",
-     "Duplicate", "Error", "ResourceNotFound", "ResourceNotAuthorized",
-     "InvalidDimension|BadArgument".
+     "Duplicate", "Error", "ResourceNotFound", "ResourceNotAuthorized", "InvalidDimension",
+     "InvalidQuantity", "BadArgument".
     :type status: str or ~microsoft.marketplace.meter.models.UsageEventStatusEnum
     :param message_time: Time this message was created in UTC.
     :type message_time: ~datetime.datetime
@@ -233,7 +319,7 @@ class UsageEventOkResponse(msrest.serialization.Model):
     :param resource_uri: Identifier of the managed app resource against which usage is emitted.
     :type resource_uri: str
     :param quantity: Number of units consumed.
-    :type quantity: long
+    :type quantity: float
     :param dimension: Dimension identifier.
     :type dimension: str
     :param effective_start_time: Time in UTC when the usage event occurred.
@@ -248,7 +334,7 @@ class UsageEventOkResponse(msrest.serialization.Model):
         'message_time': {'key': 'messageTime', 'type': 'iso-8601'},
         'resource_id': {'key': 'resourceId', 'type': 'str'},
         'resource_uri': {'key': 'resourceUri', 'type': 'str'},
-        'quantity': {'key': 'quantity', 'type': 'long'},
+        'quantity': {'key': 'quantity', 'type': 'float'},
         'dimension': {'key': 'dimension', 'type': 'str'},
         'effective_start_time': {'key': 'effectiveStartTime', 'type': 'iso-8601'},
         'plan_id': {'key': 'planId', 'type': 'str'},
@@ -262,7 +348,7 @@ class UsageEventOkResponse(msrest.serialization.Model):
         message_time: Optional[datetime.datetime] = None,
         resource_id: Optional[str] = None,
         resource_uri: Optional[str] = None,
-        quantity: Optional[int] = None,
+        quantity: Optional[float] = None,
         dimension: Optional[str] = None,
         effective_start_time: Optional[datetime.datetime] = None,
         plan_id: Optional[str] = None,

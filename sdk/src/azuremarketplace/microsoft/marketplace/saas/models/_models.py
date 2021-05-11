@@ -82,6 +82,64 @@ class FulfillmentInternalServerErrorResponseError(msrest.serialization.Model):
         self.message = kwargs.get('message', None)
 
 
+class MeteringDimension(msrest.serialization.Model):
+    """MeteringDimension.
+
+    :param id:
+    :type id: str
+    :param currency:
+    :type currency: str
+    :param price_per_unit:
+    :type price_per_unit: float
+    :param unit_of_measure:
+    :type unit_of_measure: str
+    :param display_name:
+    :type display_name: str
+    """
+
+    _attribute_map = {
+        'id': {'key': 'id', 'type': 'str'},
+        'currency': {'key': 'currency', 'type': 'str'},
+        'price_per_unit': {'key': 'pricePerUnit', 'type': 'float'},
+        'unit_of_measure': {'key': 'unitOfMeasure', 'type': 'str'},
+        'display_name': {'key': 'displayName', 'type': 'str'},
+    }
+
+    def __init__(
+        self,
+        **kwargs
+    ):
+        super(MeteringDimension, self).__init__(**kwargs)
+        self.id = kwargs.get('id', None)
+        self.currency = kwargs.get('currency', None)
+        self.price_per_unit = kwargs.get('price_per_unit', None)
+        self.unit_of_measure = kwargs.get('unit_of_measure', None)
+        self.display_name = kwargs.get('display_name', None)
+
+
+class MeteringedQuantityIncluded(msrest.serialization.Model):
+    """MeteringedQuantityIncluded.
+
+    :param dimension_id:
+    :type dimension_id: str
+    :param units:
+    :type units: str
+    """
+
+    _attribute_map = {
+        'dimension_id': {'key': 'dimensionId', 'type': 'str'},
+        'units': {'key': 'units', 'type': 'str'},
+    }
+
+    def __init__(
+        self,
+        **kwargs
+    ):
+        super(MeteringedQuantityIncluded, self).__init__(**kwargs)
+        self.dimension_id = kwargs.get('dimension_id', None)
+        self.units = kwargs.get('units', None)
+
+
 class Operation(msrest.serialization.Model):
     """Operation.
 
@@ -167,12 +225,30 @@ class Plan(msrest.serialization.Model):
     :type display_name: str
     :param is_private:
     :type is_private: bool
+    :param description:
+    :type description: str
+    :param has_free_trials:
+    :type has_free_trials: bool
+    :param is_price_per_seat:
+    :type is_price_per_seat: bool
+    :param is_stop_sell:
+    :type is_stop_sell: bool
+    :param market:
+    :type market: str
+    :param plan_components:
+    :type plan_components: ~microsoft.marketplace.saas.models.PlanComponents
     """
 
     _attribute_map = {
         'plan_id': {'key': 'planId', 'type': 'str'},
         'display_name': {'key': 'displayName', 'type': 'str'},
         'is_private': {'key': 'isPrivate', 'type': 'bool'},
+        'description': {'key': 'description', 'type': 'str'},
+        'has_free_trials': {'key': 'hasFreeTrials', 'type': 'bool'},
+        'is_price_per_seat': {'key': 'isPricePerSeat', 'type': 'bool'},
+        'is_stop_sell': {'key': 'isStopSell', 'type': 'bool'},
+        'market': {'key': 'market', 'type': 'str'},
+        'plan_components': {'key': 'planComponents', 'type': 'PlanComponents'},
     }
 
     def __init__(
@@ -183,6 +259,71 @@ class Plan(msrest.serialization.Model):
         self.plan_id = kwargs.get('plan_id', None)
         self.display_name = kwargs.get('display_name', None)
         self.is_private = kwargs.get('is_private', None)
+        self.description = kwargs.get('description', None)
+        self.has_free_trials = kwargs.get('has_free_trials', None)
+        self.is_price_per_seat = kwargs.get('is_price_per_seat', None)
+        self.is_stop_sell = kwargs.get('is_stop_sell', None)
+        self.market = kwargs.get('market', None)
+        self.plan_components = kwargs.get('plan_components', None)
+
+
+class PlanComponents(msrest.serialization.Model):
+    """PlanComponents.
+
+    :param recurrent_billing_terms:
+    :type recurrent_billing_terms: list[~microsoft.marketplace.saas.models.RecurrentBillingTerm]
+    :param metering_dimensions:
+    :type metering_dimensions: list[~microsoft.marketplace.saas.models.MeteringDimension]
+    """
+
+    _attribute_map = {
+        'recurrent_billing_terms': {'key': 'recurrentBillingTerms', 'type': '[RecurrentBillingTerm]'},
+        'metering_dimensions': {'key': 'meteringDimensions', 'type': '[MeteringDimension]'},
+    }
+
+    def __init__(
+        self,
+        **kwargs
+    ):
+        super(PlanComponents, self).__init__(**kwargs)
+        self.recurrent_billing_terms = kwargs.get('recurrent_billing_terms', None)
+        self.metering_dimensions = kwargs.get('metering_dimensions', None)
+
+
+class RecurrentBillingTerm(msrest.serialization.Model):
+    """RecurrentBillingTerm.
+
+    :param currency:
+    :type currency: str
+    :param price:
+    :type price: float
+    :param term_unit:  Possible values include: "P1M", "P1Y".
+    :type term_unit: str or ~microsoft.marketplace.saas.models.TermUnitEnum
+    :param term_description:
+    :type term_description: str
+    :param metered_quantity_included:
+    :type metered_quantity_included:
+     list[~microsoft.marketplace.saas.models.MeteringedQuantityIncluded]
+    """
+
+    _attribute_map = {
+        'currency': {'key': 'currency', 'type': 'str'},
+        'price': {'key': 'price', 'type': 'float'},
+        'term_unit': {'key': 'termUnit', 'type': 'str'},
+        'term_description': {'key': 'termDescription', 'type': 'str'},
+        'metered_quantity_included': {'key': 'meteredQuantityIncluded', 'type': '[MeteringedQuantityIncluded]'},
+    }
+
+    def __init__(
+        self,
+        **kwargs
+    ):
+        super(RecurrentBillingTerm, self).__init__(**kwargs)
+        self.currency = kwargs.get('currency', None)
+        self.price = kwargs.get('price', None)
+        self.term_unit = kwargs.get('term_unit', None)
+        self.term_description = kwargs.get('term_description', None)
+        self.metered_quantity_included = kwargs.get('metered_quantity_included', None)
 
 
 class ResolvedSubscription(msrest.serialization.Model):
@@ -272,6 +413,8 @@ class Subscription(msrest.serialization.Model):
     :type quantity: int
     :param term:
     :type term: ~microsoft.marketplace.saas.models.SubscriptionTerm
+    :param auto_renew: Indicating whether the subscription will renew automatically.
+    :type auto_renew: bool
     :param is_test: Indicating whether the current subscription is a test asset.
     :type is_test: bool
     :param is_free_trial: true - the customer subscription is currently in free trial, false - the
@@ -286,12 +429,14 @@ class Subscription(msrest.serialization.Model):
     :type fulfillment_id: str
     :param store_front:
     :type store_front: str
-    :param session_mode: Dry Run indicates all transactions run as Test-Mode in the commerce stack.
-     Possible values include: "None", "DryRun".
-    :type session_mode: str or ~microsoft.marketplace.saas.models.SessionModeEnum
     :param sandbox_type: Possible Values are None, Csp (Csp sandbox purchase). Possible values
      include: "None", "Csp".
     :type sandbox_type: str or ~microsoft.marketplace.saas.models.SandboxTypeEnum
+    :param created:
+    :type created: ~datetime.datetime
+    :param session_mode: Dry Run indicates all transactions run as Test-Mode in the commerce stack.
+     Possible values include: "None", "DryRun".
+    :type session_mode: str or ~microsoft.marketplace.saas.models.SessionModeEnum
     """
 
     _attribute_map = {
@@ -305,14 +450,16 @@ class Subscription(msrest.serialization.Model):
         'plan_id': {'key': 'planId', 'type': 'str'},
         'quantity': {'key': 'quantity', 'type': 'int'},
         'term': {'key': 'term', 'type': 'SubscriptionTerm'},
+        'auto_renew': {'key': 'autoRenew', 'type': 'bool'},
         'is_test': {'key': 'isTest', 'type': 'bool'},
         'is_free_trial': {'key': 'isFreeTrial', 'type': 'bool'},
         'allowed_customer_operations': {'key': 'allowedCustomerOperations', 'type': '[str]'},
         'session_id': {'key': 'sessionId', 'type': 'str'},
         'fulfillment_id': {'key': 'fulfillmentId', 'type': 'str'},
         'store_front': {'key': 'storeFront', 'type': 'str'},
-        'session_mode': {'key': 'sessionMode', 'type': 'str'},
         'sandbox_type': {'key': 'sandboxType', 'type': 'str'},
+        'created': {'key': 'created', 'type': 'iso-8601'},
+        'session_mode': {'key': 'sessionMode', 'type': 'str'},
     }
 
     def __init__(
@@ -330,14 +477,16 @@ class Subscription(msrest.serialization.Model):
         self.plan_id = kwargs.get('plan_id', None)
         self.quantity = kwargs.get('quantity', None)
         self.term = kwargs.get('term', None)
+        self.auto_renew = kwargs.get('auto_renew', None)
         self.is_test = kwargs.get('is_test', None)
         self.is_free_trial = kwargs.get('is_free_trial', None)
         self.allowed_customer_operations = kwargs.get('allowed_customer_operations', None)
         self.session_id = kwargs.get('session_id', None)
         self.fulfillment_id = kwargs.get('fulfillment_id', None)
         self.store_front = kwargs.get('store_front', None)
-        self.session_mode = kwargs.get('session_mode', None)
         self.sandbox_type = kwargs.get('sandbox_type', None)
+        self.created = kwargs.get('created', None)
+        self.session_mode = kwargs.get('session_mode', None)
 
 
 class SubscriptionPlans(msrest.serialization.Model):

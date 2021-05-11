@@ -32,15 +32,6 @@ class AllowedCustomerOperationsEnum(with_metaclass(_CaseInsensitiveEnumMeta, str
     UPDATE = "Update"
     DELETE = "Delete"
 
-class ApiVersion(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
-    """The request must send the following parameters as a URL Encoded form; grant_type -
-    client_credentials; resource - 62d94f6c-d599-489b-a797-3e10e42fbe22; client_id - AAD Registered
-    App Client ID; client_secret - AAD Registered App Client Secret
-    """
-
-    TWO_THOUSAND_EIGHTEEN08_31 = "2018-08-31"
-    TWO_THOUSAND_EIGHTEEN09_15 = "2018-09-15"
-
 class OperationActionEnum(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
 
     UNSUBSCRIBE = "Unsubscribe"
@@ -80,6 +71,11 @@ class SubscriptionStatusEnum(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)
     SUBSCRIBED = "Subscribed"
     SUSPENDED = "Suspended"
     UNSUBSCRIBED = "Unsubscribed"
+
+class TermUnitEnum(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
+
+    P1_M = "P1M"
+    P1_Y = "P1Y"
 
 class UpdateOperationStatusEnum(with_metaclass(_CaseInsensitiveEnumMeta, str, Enum)):
 

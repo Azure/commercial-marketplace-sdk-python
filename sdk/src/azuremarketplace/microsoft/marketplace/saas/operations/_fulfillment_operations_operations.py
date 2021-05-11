@@ -51,7 +51,7 @@ class FulfillmentOperationsOperations(object):
         correlation_id=None,  # type: Optional[str]
         **kwargs  # type: Any
     ):
-        # type: (...) -> Optional["models.ResolvedSubscription"]
+        # type: (...) -> "models.ResolvedSubscription"
         """Resolve a subscription.
 
         The resolve endpoint enables the publisher to resolve a marketplace token to a persistent
@@ -75,10 +75,10 @@ class FulfillmentOperationsOperations(object):
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResolvedSubscription, or the result of cls(response)
-        :rtype: ~microsoft.marketplace.saas.models.ResolvedSubscription or None
+        :rtype: ~microsoft.marketplace.saas.models.ResolvedSubscription
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[Optional["models.ResolvedSubscription"]]
+        cls = kwargs.pop('cls', None)  # type: ClsType["models.ResolvedSubscription"]
         error_map = {
             401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError
         }
@@ -106,13 +106,11 @@ class FulfillmentOperationsOperations(object):
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 400, 403, 404, 500]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize('ResolvedSubscription', pipeline_response)
+        deserialized = self._deserialize('ResolvedSubscription', pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -144,7 +142,7 @@ class FulfillmentOperationsOperations(object):
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SubscriptionsResponse or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~microsoft.marketplace.saas.models.SubscriptionsResponseor Noneor None]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.marketplace.saas.models.SubscriptionsResponse]
         :raises: ~azure.core.exceptions.HttpResponseError
         """
         cls = kwargs.pop('cls', None)  # type: ClsType["models.SubscriptionsResponse"]
@@ -193,7 +191,7 @@ class FulfillmentOperationsOperations(object):
             pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
             response = pipeline_response.http_response
 
-            if response.status_code not in [200, 403, 500]:
+            if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -211,7 +209,7 @@ class FulfillmentOperationsOperations(object):
         correlation_id=None,  # type: Optional[str]
         **kwargs  # type: Any
     ):
-        # type: (...) -> Optional["models.Subscription"]
+        # type: (...) -> "models.Subscription"
         """Get subscription.
 
         Gets the specified SaaS subscription. Use this call to get license information and plan
@@ -229,10 +227,10 @@ class FulfillmentOperationsOperations(object):
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Subscription, or the result of cls(response)
-        :rtype: ~microsoft.marketplace.saas.models.Subscription or None
+        :rtype: ~microsoft.marketplace.saas.models.Subscription
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[Optional["models.Subscription"]]
+        cls = kwargs.pop('cls', None)  # type: ClsType["models.Subscription"]
         error_map = {
             401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError
         }
@@ -263,13 +261,11 @@ class FulfillmentOperationsOperations(object):
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 403, 404, 500]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize('Subscription', pipeline_response)
+        deserialized = self._deserialize('Subscription', pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -341,13 +337,12 @@ class FulfillmentOperationsOperations(object):
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [202, 400, 403, 404, 500]:
+        if response.status_code not in [202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         response_headers = {}
-        if response.status_code == 202:
-            response_headers['Operation-Location']=self._deserialize('str', response.headers.get('Operation-Location'))
+        response_headers['Operation-Location']=self._deserialize('str', response.headers.get('Operation-Location'))
 
         if cls:
             return cls(pipeline_response, None, response_headers)
@@ -410,13 +405,12 @@ class FulfillmentOperationsOperations(object):
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [202, 400, 403, 404, 500]:
+        if response.status_code not in [202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         response_headers = {}
-        if response.status_code == 202:
-            response_headers['Operation-Location']=self._deserialize('str', response.headers.get('Operation-Location'))
+        response_headers['Operation-Location']=self._deserialize('str', response.headers.get('Operation-Location'))
 
         if cls:
             return cls(pipeline_response, None, response_headers)
@@ -430,7 +424,7 @@ class FulfillmentOperationsOperations(object):
         correlation_id=None,  # type: Optional[str]
         **kwargs  # type: Any
     ):
-        # type: (...) -> Optional["models.SubscriptionPlans"]
+        # type: (...) -> "models.SubscriptionPlans"
         """List available plans.
 
         Use this call to find out if there are any private or public offers for the current publisher.
@@ -447,10 +441,10 @@ class FulfillmentOperationsOperations(object):
         :type correlation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SubscriptionPlans, or the result of cls(response)
-        :rtype: ~microsoft.marketplace.saas.models.SubscriptionPlans or None
+        :rtype: ~microsoft.marketplace.saas.models.SubscriptionPlans
         :raises: ~azure.core.exceptions.HttpResponseError
         """
-        cls = kwargs.pop('cls', None)  # type: ClsType[Optional["models.SubscriptionPlans"]]
+        cls = kwargs.pop('cls', None)  # type: ClsType["models.SubscriptionPlans"]
         error_map = {
             401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError
         }
@@ -481,13 +475,11 @@ class FulfillmentOperationsOperations(object):
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 403, 404, 500]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize('SubscriptionPlans', pipeline_response)
+        deserialized = self._deserialize('SubscriptionPlans', pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -559,7 +551,7 @@ class FulfillmentOperationsOperations(object):
         pipeline_response = self._client._pipeline.run(request, stream=False, **kwargs)
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 400, 403, 404, 500]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 

@@ -10,9 +10,13 @@ try:
     from ._models_py3 import AadIdentifier
     from ._models_py3 import FulfillmentInternalServerErrorResponse
     from ._models_py3 import FulfillmentInternalServerErrorResponseError
+    from ._models_py3 import MeteringDimension
+    from ._models_py3 import MeteringedQuantityIncluded
     from ._models_py3 import Operation
     from ._models_py3 import OperationList
     from ._models_py3 import Plan
+    from ._models_py3 import PlanComponents
+    from ._models_py3 import RecurrentBillingTerm
     from ._models_py3 import ResolvedSubscription
     from ._models_py3 import SubscriberPlan
     from ._models_py3 import Subscription
@@ -24,9 +28,13 @@ except (SyntaxError, ImportError):
     from ._models import AadIdentifier  # type: ignore
     from ._models import FulfillmentInternalServerErrorResponse  # type: ignore
     from ._models import FulfillmentInternalServerErrorResponseError  # type: ignore
+    from ._models import MeteringDimension  # type: ignore
+    from ._models import MeteringedQuantityIncluded  # type: ignore
     from ._models import Operation  # type: ignore
     from ._models import OperationList  # type: ignore
     from ._models import Plan  # type: ignore
+    from ._models import PlanComponents  # type: ignore
+    from ._models import RecurrentBillingTerm  # type: ignore
     from ._models import ResolvedSubscription  # type: ignore
     from ._models import SubscriberPlan  # type: ignore
     from ._models import Subscription  # type: ignore
@@ -37,12 +45,12 @@ except (SyntaxError, ImportError):
 
 from ._saa_sapi_enums import (
     AllowedCustomerOperationsEnum,
-    ApiVersion,
     OperationActionEnum,
     OperationStatusEnum,
     SandboxTypeEnum,
     SessionModeEnum,
     SubscriptionStatusEnum,
+    TermUnitEnum,
     UpdateOperationStatusEnum,
 )
 
@@ -50,9 +58,13 @@ __all__ = [
     'AadIdentifier',
     'FulfillmentInternalServerErrorResponse',
     'FulfillmentInternalServerErrorResponseError',
+    'MeteringDimension',
+    'MeteringedQuantityIncluded',
     'Operation',
     'OperationList',
     'Plan',
+    'PlanComponents',
+    'RecurrentBillingTerm',
     'ResolvedSubscription',
     'SubscriberPlan',
     'Subscription',
@@ -61,11 +73,11 @@ __all__ = [
     'SubscriptionsResponse',
     'UpdateOperation',
     'AllowedCustomerOperationsEnum',
-    'ApiVersion',
     'OperationActionEnum',
     'OperationStatusEnum',
     'SandboxTypeEnum',
     'SessionModeEnum',
     'SubscriptionStatusEnum',
+    'TermUnitEnum',
     'UpdateOperationStatusEnum',
 ]
